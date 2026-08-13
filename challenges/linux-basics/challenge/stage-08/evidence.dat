@@ -1,0 +1,6 @@
+Checkpoint 8/10
+
+flag{linux_file_inspection}
+
+`file` is useful before choosing a tool to read unknown data.
+For the next step, use `grep -R` to find the word NORTHSTAR in stage-09.

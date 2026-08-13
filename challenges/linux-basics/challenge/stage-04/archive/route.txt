@@ -1,0 +1,7 @@
+Checkpoint 4/10
+
+flag{linux_compressed_files}
+
+The file extension helps, but `file` tells you what a file actually contains.
+Find the unusual item below /opt/linux-trail/stage-05. It is hidden deeper than
+the directory you first see.

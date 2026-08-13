@@ -1,0 +1,4 @@
+#!/bin/sh
+printf '%s\n' 'Checkpoint 7/10'
+printf '%s\n' 'flag{linux_executable_files}'
+printf '%s\n' 'Next, use `file` on /opt/linux-trail/stage-08/evidence.dat.'

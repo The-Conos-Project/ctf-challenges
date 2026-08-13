@@ -1,0 +1,10 @@
+Checkpoint 10/10 — Complete
+===========================
+
+flag{linux_basics_ten_steps_complete}
+
+You used the core commands needed to navigate and inspect a Linux system:
+hidden-file listing, recursive search, decoding, compressed-file reading, file
+identification, permissions, executable files, and absolute paths.
+
+Submit this final flag in CTFploy.

@@ -1,0 +1,13 @@
+{
+  "name": "linux-basics",
+  "display_name": "Linux Basics: The Ten-Step Trail",
+  "internal_port": 22,
+  "connection_type": "ssh",
+  "flag_type": "static",
+  "flag": "flag{linux_basics_ten_steps_complete}",
+  "hints": [
+    "Start with `cat /opt/linux-trail/START_HERE`.",
+    "Each checkpoint tells you which Linux command family to practise next.",
+    "The first nine flags confirm your progress. Submit the tenth and final flag to CTFploy."
+  ]
+}
