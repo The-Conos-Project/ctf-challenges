@@ -4,7 +4,17 @@ display_name: Linux Basics: The Ten-Step Trail
 internal_port: 22
 connection_type: ssh
 flag_type: static
-flag: flag{linux_basics_ten_steps_complete}
+flags:
+  - flag{linux_hidden_files}
+  - flag{linux_grep_search}
+  - flag{linux_base64_decode}
+  - flag{linux_compressed_files}
+  - flag{linux_find_command}
+  - flag{linux_permissions_read}
+  - flag{linux_executable_files}
+  - flag{linux_file_inspection}
+  - flag{linux_recursive_search}
+  - flag{linux_basics_ten_steps_complete}
 hints:
   - "Start with `cat /opt/linux-trail/START_HERE`."
   - "Each checkpoint tells you which Linux command family to practise next."
