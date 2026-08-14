@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y openssh-server file curl netcat-openbsd
 RUN mkdir /var/run/sshd
 RUN sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 RUN sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+RUN ssh-keygen -A
 COPY setup.sh /usr/local/bin/setup.sh
 RUN chmod +x /usr/local/bin/setup.sh
 EXPOSE 22
