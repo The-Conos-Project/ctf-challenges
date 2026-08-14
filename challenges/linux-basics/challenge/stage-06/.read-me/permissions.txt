@@ -1,6 +1,0 @@
-Checkpoint 6/10
-
-flag{linux_permissions_read}
-
-Use `ls -l` to see permissions. A file is executable when its mode has an x.
-Find the executable file under /opt/linux-trail/stage-07 and run it.

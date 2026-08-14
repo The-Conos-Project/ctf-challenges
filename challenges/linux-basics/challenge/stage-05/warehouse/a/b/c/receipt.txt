@@ -1,7 +1,0 @@
-Checkpoint 5/10
-
-flag{linux_find_command}
-
-Paths matter. Run `pwd` after changing directories so you always know where you
-are. The next clue is at /opt/linux-trail/stage-06, inside a directory whose
-name begins with a dot.

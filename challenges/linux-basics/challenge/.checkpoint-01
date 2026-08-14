@@ -1,8 +1,0 @@
-Checkpoint 1/10
----------------
-flag{linux_hidden_files}
-
-Nice. Hidden files are still ordinary files.
-
-Next: inspect the files below stage-02. One log line is tagged NEEDLE. Use grep
-to search rather than opening each file manually.

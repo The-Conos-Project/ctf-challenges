@@ -1,0 +1,221 @@
+{
+  "name": "linux-trail",
+  "display_name": "Linux Training Trail",
+  "description": "Master Linux fundamentals through 10 progressive challenges in a shared environment.",
+  "challenges": [
+    {
+      "name": "bash-history",
+      "display_name": "Linux History: Past Logs",
+      "description": "Inspect past terminal command execution records.",
+      "flags": [
+        {
+          "flag": "flag{history_repeats_itself}",
+          "description": "Find the flag in the command execution history.",
+          "hints": [
+            "Check the `.bash_history` file in your home directory.",
+            "Run the `history` command to see previously executed commands."
+          ]
+        },
+        {
+          "flag": "flag{history_tells_no_lies}",
+          "description": "Find the second flag embedded in the history timestamps.",
+          "hints": [
+            "History entries may contain timestamps.",
+            "Inspect `~/.bash_history` carefully for hidden data."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat-reading",
+      "display_name": "Linux Reading: File Contents",
+      "description": "Read file contents in the terminal using standard utilities.",
+      "flags": [
+        {
+          "flag": "flag{cat_content_revealed}",
+          "description": "Print the contents of the flag file to reveal the secret.",
+          "hints": [
+            "Use the `cat` command to read file contents.",
+            "The target file is `flag.txt` in the challenge directory."
+          ]
+        },
+        {
+          "flag": "flag{less_is_more}",
+          "description": "Use a pager to read the same file.",
+          "hints": [
+            "Try `less flag.txt` or `more flag.txt`.",
+            "Pagers are useful for viewing file contents page by page."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env-vars",
+      "display_name": "Linux Env: Variables",
+      "description": "Read settings and flags configured via environment variables.",
+      "flags": [
+        {
+          "flag": "flag{env_variable_found}",
+          "description": "Retrieve the SECRET_FLAG environment variable.",
+          "hints": [
+            "Run the `env` or `printenv` commands.",
+            "Search for the variable names matching 'SECRET_FLAG'."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "file-listing",
+      "display_name": "Linux Listing: Hidden Checks",
+      "description": "Learn to list all files in a directory, including hidden dotfiles.",
+      "flags": [
+        {
+          "flag": "flag{find_all_visible_files}",
+          "description": "Find the hidden flag file in the challenge directory.",
+          "hints": [
+            "Use `ls -la` to list all files, including hidden ones.",
+            "Files starting with a dot are hidden in Linux."
+          ]
+        },
+        {
+          "flag": "flag{dotfiles_revealed}",
+          "description": "Find the second hidden flag using glob patterns.",
+          "hints": [
+            "Try `echo .*` to see hidden files.",
+            "Use `find` with `-name '.*'` to locate all dotfiles."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find-search",
+      "display_name": "Linux Find: Deep Search",
+      "description": "Search the directory tree for files matching specific names.",
+      "flags": [
+        {
+          "flag": "flag{find_hidden_treasure}",
+          "description": "Locate the file named secret_flag.txt in the directory structure.",
+          "hints": [
+            "Use the `find` command to search recursively.",
+            "Run `find /opt/challenges/find-search -name 'secret_flag.txt'`."
+          ]
+        },
+        {
+          "flag": "flag{find_all_treasures}",
+          "description": "Find all flag files in the challenge directory tree.",
+          "hints": [
+            "Use `find` with `-name '*flag*'` to match multiple files.",
+            "Combine `find` with `xargs` or `-exec`."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grep-pattern",
+      "display_name": "Linux Grep: Searching Logs",
+      "description": "Filter and search log files for specific patterns.",
+      "flags": [
+        {
+          "flag": "flag{grep_success_pattern}",
+          "description": "Find the flag matching the string 'flag' inside the log file.",
+          "hints": [
+            "Use the `grep` command to search for matching text.",
+            "Run `grep flag /opt/challenges/grep-pattern/access.log`."
+          ]
+        },
+        {
+          "flag": "flag{grep_context_king}",
+          "description": "Find the flag with surrounding context lines.",
+          "hints": [
+            "Use `grep -C 2 flag access.log` to see context.",
+            "Context helps confirm you found the right line."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "network-check",
+      "display_name": "Linux Ports: Local Connection",
+      "description": "Interact with network socket interfaces on the local loopback.",
+      "flags": [
+        {
+          "flag": "flag{local_port_handshake}",
+          "description": "Talk to the local HTTP server running on port 8080.",
+          "hints": [
+            "Use `curl` or `nc` to connect to localhost.",
+            "Run `curl http://127.0.0.1:8080`."
+          ]
+        },
+        {
+          "flag": "flag{port_scan_master}",
+          "description": "Discover the service running on port 8080 without connecting.",
+          "hints": [
+            "Use `ss` or `netstat` to list listening ports.",
+            "Try `ss -tlnp` to see TCP listeners."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "perm-check",
+      "display_name": "Linux Permissions: Restrictive Execute",
+      "description": "Practice executing files without having directory read access.",
+      "flags": [
+        {
+          "flag": "flag{permission_bypass}",
+          "description": "Access the flag.txt file inside a directory you cannot list.",
+          "hints": [
+            "Directory read permission (`r`) allows listing files. Execute (`x`) allows traversing it.",
+            "You cannot list `/opt/challenges/perm-check/restricted/` but you can access `/opt/challenges/perm-check/restricted/flag.txt` directly if you know the name."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proc-inspect",
+      "display_name": "Linux Processes: Inspect List",
+      "description": "Inspect running system processes and their command line options.",
+      "flags": [
+        {
+          "flag": "flag{process_secret_id}",
+          "description": "Find the secret flag in the arguments of a running process.",
+          "hints": [
+            "Use the `ps` command to inspect running processes.",
+            "Run `ps aux` or `ps -ef` to see command line arguments."
+          ]
+        },
+        {
+          "flag": "flag{pid_hunter}",
+          "description": "Find the PID of the secret process and inspect it.",
+          "hints": [
+            "Use `pgrep` to find the process ID by name.",
+            "Run `pgrep -f secret-agent` to find the PID."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tar-extract",
+      "display_name": "Linux Tar: Extract Archives",
+      "description": "Decompress tarballs and zip files in the terminal.",
+      "flags": [
+        {
+          "flag": "flag{archive_extracted_success}",
+          "description": "Decompress the challenge tar archive to read the flag.",
+          "hints": [
+            "Use the `tar` utility to decompress archives.",
+            "Run `tar -xf /opt/challenges/tar-extract/archive.tar.gz -C /tmp` and read the flag file."
+          ]
+        },
+        {
+          "flag": "flag{archive_contents_known}",
+          "description": "List the contents of the archive without extracting.",
+          "hints": [
+            "Use `tar -tzf archive.tar.gz` to list contents.",
+            "The `t` flag lists contents, `z` handles gzip, `f` specifies file."
+          ]
+        }
+      ]
+    }
+  ]
+}
