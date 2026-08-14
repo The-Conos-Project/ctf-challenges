@@ -1,32 +1,17 @@
 ---
 name: linux-basics
-display_name: Linux Basics: The Ten-Step Trail
-internal_port: 22
-connection_type: ssh
-flag_type: static
+display_name: Linux Basics: Hidden Files
+description: Find a flag stored in a hidden file using basic directory listing.
 flags:
-  - flag{linux_hidden_files}
-  - flag{linux_grep_search}
-  - flag{linux_base64_decode}
-  - flag{linux_compressed_files}
-  - flag{linux_find_command}
-  - flag{linux_permissions_read}
-  - flag{linux_executable_files}
-  - flag{linux_file_inspection}
-  - flag{linux_recursive_search}
-  - flag{linux_basics_ten_steps_complete}
-hints:
-  - "Start with `cat /opt/linux-trail/START_HERE`."
-  - "Each checkpoint tells you which Linux command family to practise next."
-  - "The first nine flags confirm your progress. Submit the tenth and final flag to CTFploy."
+  - flag: flag{linux_hidden_files}
+    description: Locate and read the hidden checkpoint file.
+    hints:
+      - "Start with `ls -la /opt/linux-trail`."
 ---
 
-# Linux Basics: The Ten-Step Trail
+# Linux Basics: Hidden Files
 
-An approachable ten-checkpoint SSH lab for Linux fundamentals. Players follow a
-clear trail while using `ls -la`, `cat`, `find`, `grep`, `base64`, `file`,
-`zcat`, `pwd`, and executable permissions. The first nine flags show progress;
-the tenth is the final platform submission flag.
+An approachable SSH lab that teaches `ls -la` and `cat`.
 
 ## Connection
 

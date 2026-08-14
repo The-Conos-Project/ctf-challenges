@@ -1,0 +1,15 @@
+{
+  "name": "cat-reading",
+  "display_name": "Linux Reading: File Contents",
+  "description": "Read file contents in the terminal using standard utilities.",
+  "flags": [
+    {
+      "flag": "flag{cat_content_revealed}",
+      "description": "Print the contents of the flag file to reveal the secret.",
+      "hints": [
+        "Use the `cat` command to read file contents.",
+        "The target file is `flag.txt`."
+      ]
+    }
+  ]
+}

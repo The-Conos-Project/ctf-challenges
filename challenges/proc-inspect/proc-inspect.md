@@ -1,0 +1,23 @@
+---
+name: proc-inspect
+display_name: Linux Processes: Inspect List
+description: Inspect running system processes and their command line options.
+flags:
+  - flag: flag{process_secret_id}
+    description: Find the secret flag in the arguments of a running process.
+    hints:
+      - "Use the `ps` command to inspect running processes."
+      - "Run `ps aux` or `ps -ef` to see command line arguments."
+---
+
+# Linux Processes: Inspect List
+
+Inspect running system processes and their command line options.
+
+## Connection
+
+Connect via SSH on port 22.
+
+## Start
+
+Run `cat /opt/challenge/START_HERE` after connecting.

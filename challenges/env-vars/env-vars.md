@@ -1,0 +1,23 @@
+---
+name: env-vars
+display_name: Linux Env: Variables
+description: Read settings and flags configured via environment variables.
+flags:
+  - flag: flag{env_variable_found}
+    description: Retrieve the SECRET_FLAG environment variable.
+    hints:
+      - "Run the `env` or `printenv` commands."
+      - "Search for the variable names matching 'SECRET_FLAG'."
+---
+
+# Linux Env: Variables
+
+Read settings and flags configured via environment variables.
+
+## Connection
+
+Connect via SSH on port 22.
+
+## Start
+
+Run `cat /opt/challenge/START_HERE` after connecting.
