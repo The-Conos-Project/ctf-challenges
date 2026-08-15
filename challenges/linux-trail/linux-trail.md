@@ -11,72 +11,61 @@ Master Linux fundamentals through 10 progressive challenges in a shared environm
 ## Flags
 
 ### Flag 1: Inspect past terminal command execution records
-**Flag:** `CN{history_repeats_itself}`
-
 **Hints:**
-- Bash keeps a record of commands you type.
-- History might be stored in a hidden file in your home directory.
-- Try the `history` builtin or look for dotfiles.
+- Your shell keeps a history of the commands you have run.
+- Look in your home directory for a hidden file that stores this history.
+- Try the `history` builtin or inspect dotfiles in `~`.
 
 ### Flag 2: Read file contents in the terminal using standard utilities
-**Flag:** `CN{cat_content_revealed}`
-
 **Hints:**
-- Use the `cat` command to read file contents.
-- The target file is `flag.txt` in the challenge directory.
+- There is a simple command to print file contents to the terminal.
+- Look for a file named `flag.txt` inside the challenge directories.
+- Check the current directory and its subdirectories.
 
 ### Flag 3: Read settings and flags configured via environment variables
-**Flag:** `CN{env_variable_found}`
-
 **Hints:**
-- Run the `env` or `printenv` commands.
-- Search for the variable names matching 'SECRET_FLAG'.
+- Environment variables often store configuration or secrets.
+- Use commands like `env` or `printenv` to list them.
+- Search for variables with names like `SECRET` or `FLAG`.
 
 ### Flag 4: List all files in a directory, including hidden dotfiles
-**Flag:** `CN{find_all_visible_files}`
-
 **Hints:**
-- Use `ls -la` to list all files, including hidden ones.
-- Files starting with a dot are hidden in Linux.
+- By default, some files are hidden from `ls`.
+- Use a flag to show all entries, including those starting with `.`.
+- Check the challenge directories carefully.
 
 ### Flag 5: Search the directory tree for files matching specific names
-**Flag:** `CN{find_hidden_treasure}`
-
 **Hints:**
-- Use the `find` command to search recursively.
-- Run `find /opt/challenges/find-search -name 'secret_flag.txt'`.
+- Use a command that can search recursively through directories.
+- You can filter results by filename pattern.
+- Look under `/opt/challenges` for files with names like `secret_flag.txt`.
 
 ### Flag 6: Filter and search log files for specific patterns
-**Flag:** `CN{grep_success_pattern}`
-
 **Hints:**
-- Use the `grep` command to search for matching text.
-- Run `grep flag /opt/challenges/grep-pattern/access.log`.
+- Use a text-search command to scan files for matching lines.
+- Log files often contain useful clues.
+- Look in directories named after the tool, such as `grep-pattern`.
 
 ### Flag 7: Interact with network socket interfaces on the local loopback
-**Flag:** `CN{local_port_handshake}`
-
 **Hints:**
-- Use `curl` or `nc` to connect to localhost.
-- Run `curl http://127.0.0.1:8080`.
+- Services running on your own machine can be reached via `127.0.0.1`.
+- Use tools like `curl` or `nc` to talk to local ports.
+- Try common web ports like `8080` or `8000`.
 
 ### Flag 8: Practice executing files without having directory read access
-**Flag:** `CN{permission_bypass}`
-
 **Hints:**
-- Directory read permission (`r`) allows listing files. Execute (`x`) allows traversing it.
-- You cannot list `/opt/challenges/perm-check/restricted/` but you can access `/opt/challenges/perm-check/restricted/flag.txt` directly if you know the name.
+- Directory read permission lets you list files; execute permission lets you traverse it.
+- You may not be able to list a restricted directory, but you can still access known paths inside it.
+- Try accessing the flag file directly if you know its location.
 
 ### Flag 9: Inspect running system processes and their command line options
-**Flag:** `CN{process_secret_id}`
-
 **Hints:**
-- Use the `ps` command to inspect running processes.
-- Run `ps aux` or `ps -ef` to see command line arguments.
+- Use a command to list running processes and their arguments.
+- Look for unusual or interesting command lines.
+- Flags like `aux` or `ef` show more detail.
 
 ### Flag 10: Decompress tarballs and zip files in the terminal
-**Flag:** `CN{archive_extracted_success}`
-
 **Hints:**
-- Use the `tar` utility to decompress archives.
-- Run `tar -xf /opt/challenges/tar-extract/archive.tar.gz -C /tmp` and read the flag file.
+- Archives often contain the flag inside.
+- Use `tar` to extract compressed archives.
+- After extracting, search the output files for the flag.
