@@ -70,6 +70,11 @@ CMD ["/bin/sh", "-c", "/usr/local/bin/setup.sh && echo 'setup complete' && exec 
 - Place the flag content in files where students can discover them
 - Do **not** hardcode credentials; the platform injects `SSH_USER` and `SSH_PASSWORD` at runtime
 
+**Important:**
+- Do **not** use `exit 0` inside the `CHALLENGE_NAME` case block if more setup must run afterwards. An unexpected or missing `CHALLENGE_NAME` can cause the script to terminate before creating required directories.
+- Always guard cleanup commands (`chmod`, `rm`, `find`, etc.) with existence checks: `if [ -d /path ]; then ...; fi`
+- When a `CHALLENGE_NAME` is provided but does not match any case, fall back to setting up all challenges or print a warning and continue.
+
 Example structure:
 
 ```bash
@@ -81,14 +86,18 @@ CHALLENGE_NAME="${CHALLENGE_NAME:-}"
 if [[ -n "$CHALLENGE_NAME" ]]; then
     case "$CHALLENGE_NAME" in
         my-challenge) setup_my_challenge ;;
-        *) echo "Unknown challenge: $CHALLENGE_NAME" ;;
+        *) echo "Unknown challenge: $CHALLENGE_NAME; setting up all challenges." ;;
     esac
-    exit 0
 fi
 
-# Default: set up all challenges
+# Always ensure required directories and files exist.
 setup_my_challenge
 setup_another_challenge
+
+# Optional cleanup; guard with existence check.
+if [ -d /opt/challenges ]; then
+    find /opt/challenges -type d -exec chmod 755 {} \;
+fi
 ```
 
 ### ctfploy.json
