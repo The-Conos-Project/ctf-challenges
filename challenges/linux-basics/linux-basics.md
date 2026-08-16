@@ -8,6 +8,12 @@ description: Master Linux fundamentals through 25 progressive challenges in a sh
 
 Master Linux fundamentals through 25 progressive challenges in a shared environment.
 
+## Setup
+
+1. Start the container from CTFploy.
+2. Connect via SSH using the credentials shown in the platform.
+3. Explore the environment to find the flags.
+
 ## Flags
 
 ### Flag 1: Print the absolute path of your current working directory

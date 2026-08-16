@@ -122,7 +122,7 @@ This is the manifest the platform reads to understand the challenge:
 - `name`: lowercase, no spaces, used as the folder name and image tag prefix
 - `display_name`: human-readable title shown on the website
 - `description`: 1-2 sentences explaining the challenge
-- `credentials`: **optional**. If omitted, the platform will auto-generate a random username and password. If provided, must include `username` (3-32 chars, lowercase/numbers/underscores/hyphens) and `password` (1-128 chars).
+- `credentials`: **required**. Must include `username` (3-32 chars, lowercase/numbers/underscores/hyphens) and `password` (1-128 chars). The platform injects these into the container at runtime.
 - `flags`: array of flag objects
   - `flag`: **must** start with `CN{` and end with `}`
   - `description`: what the student needs to accomplish
