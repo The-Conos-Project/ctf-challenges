@@ -2,6 +2,10 @@
   "name": "my-challenge",
   "display_name": "My Challenge",
   "description": "Short description of what this challenge tests.",
+  "credentials": {
+    "username": "ctfuser",
+    "password": "changeme123"
+  },
   "flags": [
     {
       "flag": "CN{example_flag_here}",

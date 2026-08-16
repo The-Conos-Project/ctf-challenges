@@ -100,12 +100,16 @@ This is the manifest the platform reads to understand the challenge:
   "name": "linux-trail",
   "display_name": "Linux Training Trail",
   "description": "Master Linux fundamentals through 10 progressive challenges in a shared environment.",
+  "credentials": {
+    "username": "ctfuser",
+    "password": "changeme123"
+  },
   "flags": [
     {
       "flag": "CN{example_flag_here}",
       "description": "Short description of what the student must do.",
       "hints": [
-        "First generic hint pointing toward the right tool or area.",
+        "First generic hint pointing toward the right tool or concept.",
         "Second generic hint with slightly more direction.",
         "Third hint that clarifies the exact path or command without being a full walkthrough."
       ]
@@ -118,6 +122,7 @@ This is the manifest the platform reads to understand the challenge:
 - `name`: lowercase, no spaces, used as the folder name and image tag prefix
 - `display_name`: human-readable title shown on the website
 - `description`: 1-2 sentences explaining the challenge
+- `credentials`: **optional**. If omitted, the platform will auto-generate a random username and password. If provided, must include `username` (3-32 chars, lowercase/numbers/underscores/hyphens) and `password` (1-128 chars).
 - `flags`: array of flag objects
   - `flag`: **must** start with `CN{` and end with `}`
   - `description`: what the student needs to accomplish
