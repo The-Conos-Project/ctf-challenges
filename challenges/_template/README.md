@@ -107,6 +107,8 @@ This is the manifest the platform reads to understand the challenge:
   "flags": [
     {
       "flag": "CN{example_flag_here}",
+      "points": 4,
+      "max_attempts": 5,
       "description": "Short description of what the student must do.",
       "hints": [
         "First generic hint pointing toward the right tool or concept.",
@@ -125,6 +127,8 @@ This is the manifest the platform reads to understand the challenge:
 - `credentials`: **required**. Must include `username` (3-32 chars, lowercase/numbers/underscores/hyphens) and `password` (1-128 chars). The platform injects these into the container at runtime.
 - `flags`: array of flag objects
   - `flag`: **must** start with `CN{` and end with `}`
+  - `points`: positive integer, score awarded on successful submission
+  - `max_attempts`: positive integer, maximum allowed submissions before locking the flag
   - `description`: what the student needs to accomplish
   - `hints`: array of 2-3 hints, ordered from vague to specific
 
