@@ -63,42 +63,51 @@ CMD ["/bin/sh", "-c", "/usr/local/bin/setup.sh && echo 'setup complete' && exec 
 
 ### setup.sh
 
-- This script sets up the challenge environment inside the container
-- It runs **every time the container starts**
-- Use the `CHALLENGE_NAME` environment variable to support multiple challenges in one image (optional)
-- Create challenge directories under `/opt/challenges/`
-- Place the flag content in files where students can discover them
-- Do **not** hardcode credentials; the platform injects `SSH_USER` and `SSH_PASSWORD` at runtime
+- This script runs **once at container startup**
+- Its only job is to create the SSH user from injected `SSH_USER` and `SSH_PASSWORD` environment variables
+- **Do not** generate challenge files or directories here — pre-build them locally and include them in the tar.gz
+- Keep it minimal to avoid startup failures
 
-**Important:**
-- Do **not** use `exit 0` inside the `CHALLENGE_NAME` case block if more setup must run afterwards. An unexpected or missing `CHALLENGE_NAME` can cause the script to terminate before creating required directories.
-- Always guard cleanup commands (`chmod`, `rm`, `find`, etc.) with existence checks: `if [ -d /path ]; then ...; fi`
-- When a `CHALLENGE_NAME` is provided but does not match any case, fall back to setting up all challenges or print a warning and continue.
-
-Example structure:
+Example:
 
 ```bash
 #!/bin/bash
 set -e
 
-CHALLENGE_NAME="${CHALLENGE_NAME:-}"
+SSH_USER="${SSH_USER:-ctfuser}"
+SSH_PASSWORD="${SSH_PASSWORD:-}"
 
-if [[ -n "$CHALLENGE_NAME" ]]; then
-    case "$CHALLENGE_NAME" in
-        my-challenge) setup_my_challenge ;;
-        *) echo "Unknown challenge: $CHALLENGE_NAME; setting up all challenges." ;;
-    esac
-fi
-
-# Always ensure required directories and files exist.
-setup_my_challenge
-setup_another_challenge
-
-# Optional cleanup; guard with existence check.
-if [ -d /opt/challenges ]; then
-    find /opt/challenges -type d -exec chmod 755 {} \;
+if [[ -n "$SSH_USER" ]]; then
+    id "$SSH_USER" >/dev/null 2>&1 || useradd -m -s /bin/bash "$SSH_USER"
+    printf '%s:%s\n' "$SSH_USER" "$SSH_PASSWORD" | chpasswd
 fi
 ```
+
+### Challenge files (pre-build locally)
+
+Instead of creating files at runtime, build the challenge directory tree locally before packaging:
+
+1. Create the directories and files on your local machine
+2. Set the correct ownership and permissions locally
+3. Include the entire `challenges/` directory in the tar.gz
+4. In the Dockerfile, simply `COPY challenges/ /home/ctfuser/challenges/`
+
+This is more reliable because:
+- No runtime script execution for challenge files
+- Permissions and ownership are baked into the image
+- No risk of `setup.sh` failures leaving the container without challenge files
+
+Example Dockerfile snippet:
+
+```dockerfile
+COPY challenges/ /home/ctfuser/challenges/
+RUN chown -R ctfuser:ctfuser /home/ctfuser/challenges && chmod 755 /home/ctfuser/challenges
+```
+
+**Permissions to set locally:**
+- `checker` files: `root:root`, mode `700` (executable only by root)
+- `README.md` files: `ctfuser:ctfuser`, mode `644` (readable by all)
+- Directories: `ctfuser:ctfuser`, mode `755`
 
 ### ctfploy.json
 
