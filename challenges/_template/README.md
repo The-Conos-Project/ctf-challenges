@@ -105,7 +105,7 @@ RUN chown -R ctfuser:ctfuser /home/ctfuser/challenges && chmod 755 /home/ctfuser
 ```
 
 **Permissions to set locally:**
-- `checker` files: `root:root`, mode `700` (executable only by root)
+- `checker` files: `root:root`, mode `755` (readable and executable by all, writable only by root — users can run `./checker CN{...}` to verify guesses locally)
 - `README.md` files: `ctfuser:ctfuser`, mode `644` (readable by all)
 - Directories: `ctfuser:ctfuser`, mode `755`
 
