@@ -14,6 +14,26 @@ Master Linux fundamentals through 25 progressive challenges in a shared environm
 2. Connect via SSH using the credentials shown in the platform.
 3. Explore the environment to find the flags.
 
+## Structure
+
+Inside the container, challenges are organized under `/home/ctfuser/challenges/`:
+
+```
+/home/ctfuser/challenges/
+  flag1/
+    README.md
+    checker
+  flag2/
+    README.md
+    checker
+  ...
+  flag25/
+    README.md
+    checker
+```
+
+Each `checker` is a root-owned validation script. Submit flags through the platform website; the platform runs the checker on your behalf.
+
 ## Flags
 
 ### Flag 1: Print the absolute path of your current working directory
