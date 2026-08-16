@@ -101,13 +101,38 @@ Example Dockerfile snippet:
 
 ```dockerfile
 COPY challenges/ /home/ctfuser/challenges/
-RUN chown -R ctfuser:ctfuser /home/ctfuser/challenges && chmod 755 /home/ctfuser/challenges
 ```
 
+**Keyword-based flag system:**
+
+Instead of hiding flag files in the system, hide **keywords** in system files. The checker script maps each keyword to its flag:
+
+- `./checker <keyword>` → prints the flag
+- `./checker <flag>` → validates the flag directly
+
+This way:
+- Flags are never stored as plain files in the system
+- Users must explore and discover keywords through Linux commands
+- Checkers are mode `701 root:root` — executable but not readable
+
 **Permissions to set locally:**
-- `checker` files: `root:root`, mode `701` (owner can read and execute; others can only execute — users can run `./checker CN{...}` to get the flag if correct, but cannot read the script contents)
+- `checker` files: `root:root`, mode `701` (owner can read and execute; others can only execute — users run `./checker <keyword>` to get the flag, but cannot read the script contents)
 - `README.md` files: `ctfuser:ctfuser`, mode `644` (readable by all)
 - Directories: `ctfuser:ctfuser`, mode `755`
+
+**System keyword files:**
+
+Create a `system/` directory with files containing hidden keywords. For example:
+- `/tmp/disk_report.txt` containing disk usage info with keyword "diskfree"
+- `/home/ctfuser/deep/nested/folder/structure/hidden_flag.txt` containing keyword "falcon"
+- `/var/log/auth.log` containing keyword "failedlogin"
+
+In the Dockerfile, copy the system tree to `/`:
+```dockerfile
+COPY system/ /
+```
+
+The keywords should be discoverable through normal Linux commands relevant to each challenge.
 
 ### ctfploy.json
 
