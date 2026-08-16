@@ -32,7 +32,11 @@ Inside the container, challenges are organized under `/home/ctfuser/challenges/`
     checker
 ```
 
-Each `checker` is a root-owned validation script. Submit flags through the platform website; the platform runs the checker on your behalf.
+Each `checker` is a root-owned validation script. Run it locally with your guess to get feedback:
+```bash
+./checker CN{your_guess}
+```
+If correct, it prints the flag. If wrong, it says "Wrong!". You can also submit flags through the platform website.
 
 ## Flags
 
