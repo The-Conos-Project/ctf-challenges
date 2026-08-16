@@ -1,0 +1,16 @@
+{
+  "name": "my-challenge",
+  "display_name": "My Challenge",
+  "description": "Short description of what this challenge tests.",
+  "flags": [
+    {
+      "flag": "CN{example_flag_here}",
+      "description": "Short description of what the student must do.",
+      "hints": [
+        "First generic hint pointing toward the right tool or concept.",
+        "Second hint with slightly more direction.",
+        "Third hint that clarifies the exact path or command."
+      ]
+    }
+  ]
+}
