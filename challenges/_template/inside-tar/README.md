@@ -4,7 +4,7 @@ Short description of the challenge. Explain what the student will learn or pract
 
 ## Setup
 
-1. Start the container from CTFploy.
+1. Start the container from Hackploy.
 2. Connect via SSH using the credentials shown in the platform.
 3. Explore the environment to find the flags.
 

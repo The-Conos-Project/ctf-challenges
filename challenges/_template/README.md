@@ -1,231 +1,126 @@
-# CTF Challenge Template
+# Hackploy challenge template
 
-This folder contains the template and rules for creating new CTF challenges for the CTFploy platform.
+Rules for packages under `challenges/` for the Hackploy Hub / platform.
 
-## Folder Structure
+## Folder structure
 
-Each challenge lives under `challenges/` as a single folder containing exactly two items:
+Each package is one folder with exactly two Hub-facing files (plus optional `build/` source kept for authors):
 
 ```
 challenges/
-  <challenge-name>/
-    <challenge-name>.tar.gz   # The Docker build artifact
-    <challenge-name>.md       # The challenge description shown on the website
+  <package-name>/
+    <package-name>.tar.gz    # Docker build context
+    <package-name>.md        # Hub description (front matter + markdown)
+    build/                   # optional: editable source used to recreate the tar
 ```
 
 Example:
 
 ```
 challenges/
-  linux-trail/
-    linux-trail.tar.gz
-    linux-trail.md
-  linux-basics/
-    linux-basics.tar.gz
-    linux-basics.md
+  linux-basics-i/
+    linux-basics-i.tar.gz
+    linux-basics-i.md
+    build/
 ```
 
-## tar.gz Contents
+## tar.gz contents
 
-Inside the `.tar.gz` archive, include exactly these files:
+At the **root** of the archive:
 
 ```
 Dockerfile
-setup.sh
-ctfploy.json
+setup.sh          # or bake content in Dockerfile RUN
+hackploy.json
 README.md
+…                 # station files, lib/, etc. as needed
 ```
 
-### Dockerfile
+### hackploy.json
 
-- Base image: `ubuntu:22.04` (or `debian:bookworm-slim` for smaller images)
-- Install only the packages needed for the challenge
-- Create a non-root SSH user (credentials are injected by the platform)
-- Copy `setup.sh` into the image
-- Expose port `22`
-- Run `setup.sh` on container start, then start `sshd`
-
-Example:
-
-```dockerfile
-FROM ubuntu:22.04
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y openssh-server <other-packages> && rm -rf /var/lib/apt/lists/*
-RUN mkdir -p /var/run/sshd /run/sshd
-RUN sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-RUN sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
-RUN ssh-keygen -A && sshd -t
-COPY setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
-EXPOSE 22
-CMD ["/bin/sh", "-c", "/usr/local/bin/setup.sh && echo 'setup complete' && exec /usr/sbin/sshd -D -e"]
-```
-
-### setup.sh
-
-- This script runs **once at container startup**
-- Its only job is to create the SSH user from injected `SSH_USER` and `SSH_PASSWORD` environment variables
-- **Do not** generate challenge files or directories here — pre-build them locally and include them in the tar.gz
-- Keep it minimal to avoid startup failures
-
-Example:
-
-```bash
-#!/bin/bash
-set -e
-
-SSH_USER="${SSH_USER:-ctfuser}"
-SSH_PASSWORD="${SSH_PASSWORD:-}"
-
-if [[ -n "$SSH_USER" ]]; then
-    id "$SSH_USER" >/dev/null 2>&1 || useradd -m -s /bin/bash "$SSH_USER"
-    printf '%s:%s\n' "$SSH_USER" "$SSH_PASSWORD" | chpasswd
-fi
-```
-
-### Challenge files (pre-build locally)
-
-Instead of creating files at runtime, build the challenge directory tree locally before packaging:
-
-1. Create the directories and files on your local machine
-2. Set the correct ownership and permissions locally
-3. Include the entire `challenges/` directory in the tar.gz
-4. In the Dockerfile, simply `COPY challenges/ /home/ctfuser/challenges/`
-
-This is more reliable because:
-- No runtime script execution for challenge files
-- Permissions and ownership are baked into the image
-- No risk of `setup.sh` failures leaving the container without challenge files
-
-Example Dockerfile snippet:
-
-```dockerfile
-COPY challenges/ /home/ctfuser/challenges/
-```
-
-**Keyword-based flag system:**
-
-Instead of hiding flag files in the system, hide **keywords** in system files. The checker script maps each keyword to its flag:
-
-- `./checker <keyword>` → prints the flag
-- `./checker <flag>` → validates the flag directly
-
-This way:
-- Flags are never stored as plain files in the system
-- Users must explore and discover keywords through Linux commands
-- Checkers are mode `701 root:root` — executable but not readable
-
-**Permissions to set locally:**
-- `checker` files: `root:root`, mode `701` (owner can read and execute; others can only execute — users run `./checker <keyword>` to get the flag, but cannot read the script contents)
-- `README.md` files: `ctfuser:ctfuser`, mode `644` (readable by all)
-- Directories: `ctfuser:ctfuser`, mode `755`
-
-**System keyword files:**
-
-Create a `system/` directory with files containing hidden keywords. For example:
-- `/tmp/disk_report.txt` containing disk usage info with keyword "diskfree"
-- `/home/ctfuser/deep/nested/folder/structure/hidden_flag.txt` containing keyword "falcon"
-- `/var/log/auth.log` containing keyword "failedlogin"
-
-In the Dockerfile, copy the system tree to `/`:
-```dockerfile
-COPY system/ /
-```
-
-The keywords should be discoverable through normal Linux commands relevant to each challenge.
-
-### ctfploy.json
-
-This is the manifest the platform reads to understand the challenge:
+Manifest the platform reads. Prefer a `challenges` array for multi-station packages (see `linux-basics-i`).
 
 ```json
 {
-  "name": "linux-trail",
-  "display_name": "Linux Training Trail",
-  "description": "Master Linux fundamentals through 10 progressive challenges in a shared environment.",
+  "name": "my-lab",
+  "display_name": "My Lab",
+  "description": "What this package teaches.",
+  "version": "1.0.0",
+  "difficulty": "mixed",
+  "category": "linux",
+  "ports": { "ssh": 22 },
   "credentials": {
-    "username": "ctfuser",
-    "password": "changeme123"
+    "username": "user",
+    "password": "user"
   },
-  "flags": [
+  "challenges": [
     {
+      "name": "station-a",
+      "display_name": "01 · Station A",
+      "description": "Easy — short goal.",
+      "difficulty": "easy",
       "flag": "CN{example_flag_here}",
-      "points": 4,
-      "max_attempts": 5,
-      "description": "Short description of what the student must do.",
-      "hints": [
-        "First generic hint pointing toward the right tool or concept.",
-        "Second generic hint with slightly more direction.",
-        "Third hint that clarifies the exact path or command without being a full walkthrough."
-      ]
+      "points": 100
     }
   ]
 }
 ```
 
-**Rules for ctfploy.json:**
-- `name`: lowercase, no spaces, used as the folder name and image tag prefix
-- `display_name`: human-readable title shown on the website
-- `description`: 1-2 sentences explaining the challenge
-- `credentials`: **required**. Must include `username` (3-32 chars, lowercase/numbers/underscores/hyphens) and `password` (1-128 chars). The platform injects these into the container at runtime.
-- `flags`: array of flag objects
-  - `flag`: **must** start with `CN{` and end with `}`
-  - `points`: positive integer, score awarded on successful submission
-  - `max_attempts`: positive integer, maximum allowed submissions before locking the flag
-  - `description`: what the student needs to accomplish
-  - `hints`: array of 2-3 hints, ordered from vague to specific
+Rules:
 
-### README.md
+- `name`: lowercase, hyphenated; matches folder / image tag prefix.
+- Flags **must** be `CN{...}`.
+- Credentials required for SSH labs.
 
-- Shown on the challenge page before the student starts the container
-- Include a brief overview, what topics are covered, and a list of flags with hints
-- Keep it clean and professional
+## Two ways to earn a flag
 
-## Flag Format
+### 1. Checker (practical)
 
-**All flags must use the format:** `CN{...}`
+Hide a **keyword** in the lab. Student runs:
 
-Examples:
-- `CN{path_to_current_directory}`
-- `CN{grep_success_pattern}`
-- `CN{special_permission_set}`
+```bash
+./checker '<keyword>'
+```
 
-Do **not** use `flag{...}` or any other format.
+Wrong keyword → no flag. Store the expected keyword as a SHA-256 hash inside the checker so the plaintext flag is not sitting in a world-readable file.
 
-## Hint Guidelines
+### 2. Ask script (theory)
 
-Hints should guide without spoiling. Follow these rules:
+For conceptual RED-0 material, put an executable **`ask`** in the station folder root (plus `answers.env` with question text and answer hashes):
 
-1. **First hint:** Very generic. Point toward the right command or concept. Do not mention file paths or exact syntax.
-2. **Second hint:** More specific. Mention the general area (e.g., "look in /etc") or the tool category (e.g., "text search utilities").
-3. **Third hint:** Almost a walkthrough but still require the student to type the command. Mention filenames or paths if necessary.
+```bash
+cd ~/challenges/02-shell-theory
+./ask
+```
 
-**Bad hints (too obvious):**
-- "Run `cat flag.txt` to get the flag"
-- "The flag is in /home/user/flag.txt"
-- "Type `ls -la` and read the hidden file"
+Student types answers interactively. On success the script prints `CN{...}`. **Not every flag must be found by grepping the filesystem.**
 
-**Good hints (generic):**
-- "Text files can reveal their contents when read properly."
-- "Some files are hidden from casual observers."
-- "Look for files that the shell stores automatically."
+Reference implementation: `linux-basics-i/build/lib/ask.sh` and stations `02-shell-theory`, `06-env-theory`.
 
-## Rules Summary
+## Difficulty
 
-1. **One challenge = one folder** inside `challenges/`
-2. **Exactly two items** in the folder: `.tar.gz` and `.md`
-3. **Inside the tar.gz:** `Dockerfile`, `setup.sh`, `ctfploy.json`, `README.md`
-4. **Flag format:** `CN{...}`
-5. **Hints:** Generic, not obvious. Do not give away the exact command.
-6. **No secrets in code:** Do not embed real credentials, API keys, or private keys.
-7. **SSH only:** The platform connects via SSH on port 22. Do not expose web services unless the challenge requires it.
-8. **Clean up:** Remove temporary files, build artifacts, and sensitive data before packaging.
-9. **Test locally:** Build the Docker image, start a container, and verify all flags are solvable before submitting.
-10. **Single purpose:** Each challenge should test one or two related concepts. Avoid cramming unrelated tasks into one challenge.
+Per RED-0 module package aim for a mix: **couple easy, couple medium, then hard** — not a string of trivial `ls` toys.
+
+## Dockerfile / SSH
+
+- Ubuntu/Debian base, `openssh-server`, non-root user.
+- Expose `22`; platform maps the port.
+- Prefer baking lab content at **image build** time (`RUN setup.sh`) so start is reliable.
+
+## Flag format
+
+Only: `CN{...}`
+
+## Rules summary
+
+1. One Hub package = one folder with `.tar.gz` + `.md`.
+2. Metadata file is **`hackploy.json`** (never `ctfploy.json`).
+3. Support checker and/or `./ask` theory flows.
+4. Test: `docker build`, run container, solve every station before push.
+5. No real secrets, API keys, or private keys in the image.
 
 ## Submitting
 
-1. Create your challenge folder under `challenges/`
-2. Add the `.tar.gz` and `.md` files
-3. Commit and push to the repository
-4. The platform will automatically detect the new challenge on the next sync
+1. Build/pack under `challenges/<name>/`.
+2. Commit and push the Hub repo.
+3. Platform / Hub sync picks up the new package.

@@ -1,0 +1,67 @@
+{
+  "name": "linux-basics-i",
+  "display_name": "Linux Basics I",
+  "description": "RED-0 aligned labs: CLI, filesystem, pipes, search, and theory quizzes. Easy → medium → hard.",
+  "version": "1.0.0",
+  "author": "Conos",
+  "difficulty": "mixed",
+  "category": "linux",
+  "tags": ["red-0", "linux", "cli", "filesystem", "pipes", "grep", "theory"],
+  "ports": {
+    "ssh": 22
+  },
+  "credentials": {
+    "username": "user",
+    "password": "user"
+  },
+  "challenges": [
+    {
+      "name": "hidden-start",
+      "display_name": "01 · Hidden Start",
+      "description": "Easy — find what ls hides by default, then unlock the flag with the checker.",
+      "difficulty": "easy",
+      "flag": "CN{red0_hidden_in_plain_sight}",
+      "points": 100
+    },
+    {
+      "name": "shell-theory",
+      "display_name": "02 · Shell Theory",
+      "description": "Easy — run ./ask and answer CLI basics questions from RED-0 to earn the flag.",
+      "difficulty": "easy",
+      "flag": "CN{red0_shell_is_not_just_bash}",
+      "points": 100
+    },
+    {
+      "name": "path-maze",
+      "display_name": "03 · Path Maze",
+      "description": "Medium — absolute vs relative paths and symlink traps across the filesystem.",
+      "difficulty": "medium",
+      "flag": "CN{red0_absolute_paths_win}",
+      "points": 200
+    },
+    {
+      "name": "log-pipeline",
+      "display_name": "04 · Log Pipeline",
+      "description": "Medium — pipes and redirection: filter noisy logs down to the signal.",
+      "difficulty": "medium",
+      "flag": "CN{red0_pipes_cut_the_noise}",
+      "points": 200
+    },
+    {
+      "name": "search-web",
+      "display_name": "05 · Search Web",
+      "description": "Hard — find + grep (+ a touch of head/tail) across a messy tree.",
+      "difficulty": "hard",
+      "flag": "CN{red0_find_grep_patience}",
+      "points": 300
+    },
+    {
+      "name": "env-theory",
+      "display_name": "06 · Env & Man Theory",
+      "description": "Hard — run ./ask for environment variables, man sections, and redirection.",
+      "difficulty": "hard",
+      "flag": "CN{red0_man_env_redirect}",
+      "points": 300
+    }
+  ]
+}
