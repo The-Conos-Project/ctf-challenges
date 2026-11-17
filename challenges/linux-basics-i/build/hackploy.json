@@ -1,12 +1,20 @@
 {
   "name": "linux-basics-i",
   "display_name": "Linux Basics I",
-  "description": "RED-0 aligned labs: CLI, filesystem, pipes, search, and theory quizzes. Easy → medium → hard.",
-  "version": "1.0.0",
+  "description": "Forty-two Linux basics stations: files, paths, search, pipes, perms, env, archives, processes. Mixed difficulty, points, hints, checker and theory quizzes.",
+  "version": "2.0.0",
   "author": "Conos",
   "difficulty": "mixed",
   "category": "linux",
-  "tags": ["red-0", "linux", "cli", "filesystem", "pipes", "grep", "theory"],
+  "tags": [
+    "linux",
+    "cli",
+    "basics",
+    "pipes",
+    "find",
+    "grep",
+    "theory"
+  ],
   "ports": {
     "ssh": 22
   },
@@ -16,52 +24,659 @@
   },
   "challenges": [
     {
-      "name": "hidden-start",
-      "display_name": "01 · Hidden Start",
-      "description": "Easy — find what ls hides by default, then unlock the flag with the checker.",
+      "name": "hidden-dotfiles",
+      "display_name": "01 \u00b7 Hidden Dotfiles",
+      "description": "Easy \u2014 find what a normal ls hides, then unlock with ./checker.",
       "difficulty": "easy",
-      "flag": "CN{red0_hidden_in_plain_sight}",
-      "points": 100
+      "section": "Files & listing",
+      "flags": [
+        {
+          "flag": "CN{lb_hidden_dotfiles}",
+          "points": 50,
+          "description": "Easy \u2014 find what a normal ls hides, then unlock with ./checker.",
+          "hints": [
+            "Try listing all entries, including names that start with a dot."
+          ]
+        }
+      ]
     },
     {
-      "name": "shell-theory",
-      "display_name": "02 · Shell Theory",
-      "description": "Easy — run ./ask and answer CLI basics questions from RED-0 to earn the flag.",
+      "name": "cat-readme",
+      "display_name": "02 \u00b7 Cat the Note",
+      "description": "Easy \u2014 read a plain text note and feed the keyword to ./checker.",
       "difficulty": "easy",
-      "flag": "CN{red0_shell_is_not_just_bash}",
-      "points": 100
+      "section": "Files & listing",
+      "flags": [
+        {
+          "flag": "CN{lb_cat_the_note}",
+          "points": 50,
+          "description": "Easy \u2014 read a plain text note and feed the keyword to ./checker."
+        }
+      ]
     },
     {
-      "name": "path-maze",
-      "display_name": "03 · Path Maze",
-      "description": "Medium — absolute vs relative paths and symlink traps across the filesystem.",
+      "name": "head-log",
+      "display_name": "03 \u00b7 Head of the Log",
+      "description": "Easy \u2014 the useful line is near the top of a long file.",
+      "difficulty": "easy",
+      "section": "Files & listing",
+      "flags": [
+        {
+          "flag": "CN{lb_head_sees_first}",
+          "points": 75,
+          "description": "Easy \u2014 the useful line is near the top of a long file.",
+          "hints": [
+            "head shows the beginning of a file.",
+            "Look for TOKEN= near the top of big.log."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tail-secret",
+      "display_name": "04 \u00b7 Tail Secret",
+      "description": "Easy \u2014 the keyword sits at the end of a long file.",
+      "difficulty": "easy",
+      "section": "Files & listing",
+      "flags": [
+        {
+          "flag": "CN{lb_tail_sees_last}",
+          "points": 75,
+          "description": "Easy \u2014 the keyword sits at the end of a long file."
+        }
+      ]
+    },
+    {
+      "name": "wc-lines",
+      "display_name": "05 \u00b7 Count Lines",
+      "description": "Medium \u2014 count lines in data.txt; that count unlocks the keyword pattern.",
       "difficulty": "medium",
-      "flag": "CN{red0_absolute_paths_win}",
-      "points": 200
+      "section": "Files & listing",
+      "flags": [
+        {
+          "flag": "CN{lb_wc_counts}",
+          "points": 100,
+          "description": "Medium \u2014 count lines in data.txt; that count unlocks the keyword pattern."
+        }
+      ]
     },
     {
-      "name": "log-pipeline",
-      "display_name": "04 · Log Pipeline",
-      "description": "Medium — pipes and redirection: filter noisy logs down to the signal.",
+      "name": "pwd-theory",
+      "display_name": "06 \u00b7 Shell Path Theory",
+      "description": "Easy theory \u2014 run ./ask and answer path/shell basics.",
+      "difficulty": "easy",
+      "section": "Paths",
+      "flags": [
+        {
+          "flag": "CN{lb_pwd_theory_ok}",
+          "points": 50,
+          "description": "Easy theory \u2014 run ./ask and answer path/shell basics."
+        }
+      ]
+    },
+    {
+      "name": "absolute-path",
+      "display_name": "07 \u00b7 Absolute Path",
+      "description": "Easy \u2014 reach a file using an absolute path under /opt/lb.",
+      "difficulty": "easy",
+      "section": "Paths",
+      "flags": [
+        {
+          "flag": "CN{lb_absolute_path}",
+          "points": 100,
+          "description": "Easy \u2014 reach a file using an absolute path under /opt/lb.",
+          "hints": [
+            "Start from /opt/lb \u2014 do not rely on your current directory."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "relative-climb",
+      "display_name": "08 \u00b7 Relative Climb",
+      "description": "Medium \u2014 climb with ../ from a nested folder to find KEY.",
       "difficulty": "medium",
-      "flag": "CN{red0_pipes_cut_the_noise}",
-      "points": 200
+      "section": "Paths",
+      "flags": [
+        {
+          "flag": "CN{lb_relative_climb}",
+          "points": 150,
+          "description": "Medium \u2014 climb with ../ from a nested folder to find KEY."
+        }
+      ]
     },
     {
-      "name": "search-web",
-      "display_name": "05 · Search Web",
-      "description": "Hard — find + grep (+ a touch of head/tail) across a messy tree.",
-      "difficulty": "hard",
-      "flag": "CN{red0_find_grep_patience}",
-      "points": 300
+      "name": "symlink-trap",
+      "display_name": "09 \u00b7 Symlink Trap",
+      "description": "Medium \u2014 follow the real symlink exit; avoid the loop.",
+      "difficulty": "medium",
+      "section": "Paths",
+      "flags": [
+        {
+          "flag": "CN{lb_symlink_resolved}",
+          "points": 150,
+          "description": "Medium \u2014 follow the real symlink exit; avoid the loop.",
+          "hints": [
+            "ls -l shows where links point.",
+            "readlink or realpath can help."
+          ]
+        }
+      ]
     },
     {
-      "name": "env-theory",
-      "display_name": "06 · Env & Man Theory",
-      "description": "Hard — run ./ask for environment variables, man sections, and redirection.",
+      "name": "realpath-resolve",
+      "display_name": "10 \u00b7 Realpath",
+      "description": "Hard \u2014 resolve a chain of symlinks to the canonical KEY.",
       "difficulty": "hard",
-      "flag": "CN{red0_man_env_redirect}",
-      "points": 300
+      "section": "Paths",
+      "flags": [
+        {
+          "flag": "CN{lb_realpath_wins}",
+          "points": 200,
+          "description": "Hard \u2014 resolve a chain of symlinks to the canonical KEY."
+        }
+      ]
+    },
+    {
+      "name": "find-by-name",
+      "display_name": "11 \u00b7 Find by Name",
+      "description": "Easy \u2014 find a file named prize.txt somewhere under tree/.",
+      "difficulty": "easy",
+      "section": "Search",
+      "flags": [
+        {
+          "flag": "CN{lb_find_by_name}",
+          "points": 100,
+          "description": "Easy \u2014 find a file named prize.txt somewhere under tree/.",
+          "hints": [
+            "find . -name prize.txt"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find-by-content",
+      "display_name": "12 \u00b7 Find by Content",
+      "description": "Medium \u2014 search file contents under dump/ for NEEDLE=.",
+      "difficulty": "medium",
+      "section": "Search",
+      "flags": [
+        {
+          "flag": "CN{lb_find_grep_content}",
+          "points": 150,
+          "description": "Medium \u2014 search file contents under dump/ for NEEDLE=."
+        }
+      ]
+    },
+    {
+      "name": "grep-one-file",
+      "display_name": "13 \u00b7 Grep One File",
+      "description": "Easy \u2014 grep a single file for the ERROR line with the token.",
+      "difficulty": "easy",
+      "section": "Search",
+      "flags": [
+        {
+          "flag": "CN{lb_grep_one}",
+          "points": 75,
+          "description": "Easy \u2014 grep a single file for the ERROR line with the token.",
+          "hints": [
+            "grep ERROR access.log"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grep-recursive",
+      "display_name": "14 \u00b7 Grep Recursive",
+      "description": "Medium \u2014 recursive grep across conf/ for production auth_token.",
+      "difficulty": "medium",
+      "section": "Search",
+      "flags": [
+        {
+          "flag": "CN{lb_grep_recursive}",
+          "points": 150,
+          "description": "Medium \u2014 recursive grep across conf/ for production auth_token."
+        }
+      ]
+    },
+    {
+      "name": "find-size",
+      "display_name": "15 \u00b7 Find by Size",
+      "description": "Hard \u2014 find the only empty file under sizes/; it holds the keyword.",
+      "difficulty": "hard",
+      "section": "Search",
+      "flags": [
+        {
+          "flag": "CN{lb_find_by_size}",
+          "points": 200,
+          "description": "Hard \u2014 find the only empty file under sizes/; it holds the keyword.",
+          "hints": [
+            "find can filter by size.",
+            "An empty file has size 0."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pipe-grep-wc",
+      "display_name": "16 \u00b7 Pipe Grep WC",
+      "description": "Easy \u2014 count how many lines match FAIL in events.log; keyword hits_are_<n>.",
+      "difficulty": "easy",
+      "section": "Pipes & text",
+      "flags": [
+        {
+          "flag": "CN{lb_pipe_grep_wc}",
+          "points": 100,
+          "description": "Easy \u2014 count how many lines match FAIL in events.log; keyword hits_are_<n>."
+        }
+      ]
+    },
+    {
+      "name": "cut-fields",
+      "display_name": "17 \u00b7 Cut Fields",
+      "description": "Medium \u2014 CSV field extraction; third column on the ops row.",
+      "difficulty": "medium",
+      "section": "Pipes & text",
+      "flags": [
+        {
+          "flag": "CN{lb_cut_fields}",
+          "points": 150,
+          "description": "Medium \u2014 CSV field extraction; third column on the ops row.",
+          "hints": [
+            "cut -d, -f3",
+            "Find the row where the first column is ops."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sort-uniq",
+      "display_name": "18 \u00b7 Sort Uniq",
+      "description": "Medium \u2014 find the value that appears exactly once in votes.txt.",
+      "difficulty": "medium",
+      "section": "Pipes & text",
+      "flags": [
+        {
+          "flag": "CN{lb_sort_uniq}",
+          "points": 150,
+          "description": "Medium \u2014 find the value that appears exactly once in votes.txt."
+        }
+      ]
+    },
+    {
+      "name": "awk-select",
+      "display_name": "19 \u00b7 Awk Select",
+      "description": "Hard \u2014 sum the bytes column for status=ok rows; keyword awk_sum_<total>.",
+      "difficulty": "hard",
+      "section": "Pipes & text",
+      "flags": [
+        {
+          "flag": "CN{lb_awk_power}",
+          "points": 250,
+          "description": "Hard \u2014 sum the bytes column for status=ok rows; keyword awk_sum_<total>.",
+          "hints": [
+            "awk can filter and sum columns."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sed-extract",
+      "display_name": "20 \u00b7 Sed Extract",
+      "description": "Hard \u2014 extract the code= value from a messy line with sed.",
+      "difficulty": "hard",
+      "section": "Pipes & text",
+      "flags": [
+        {
+          "flag": "CN{lb_sed_extract}",
+          "points": 250,
+          "description": "Hard \u2014 extract the code= value from a messy line with sed."
+        }
+      ]
+    },
+    {
+      "name": "whoami-id",
+      "display_name": "21 \u00b7 Who Am I",
+      "description": "Easy \u2014 confirm your login name; keyword is i_am_<username>.",
+      "difficulty": "easy",
+      "section": "Permissions & identity",
+      "flags": [
+        {
+          "flag": "CN{lb_whoami}",
+          "points": 50,
+          "description": "Easy \u2014 confirm your login name; keyword is i_am_<username>."
+        }
+      ]
+    },
+    {
+      "name": "chmod-own-file",
+      "display_name": "22 \u00b7 Chmod Own File",
+      "description": "Medium \u2014 a file you own is mode 000; fix perms and read the keyword.",
+      "difficulty": "medium",
+      "section": "Permissions & identity",
+      "flags": [
+        {
+          "flag": "CN{lb_chmod_own}",
+          "points": 100,
+          "description": "Medium \u2014 a file you own is mode 000; fix perms and read the keyword.",
+          "hints": [
+            "You own locked.txt \u2014 chmod can restore read permission."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "perms-theory",
+      "display_name": "23 \u00b7 Permissions Theory",
+      "description": "Medium theory \u2014 ./ask about chmod bits and ownership.",
+      "difficulty": "medium",
+      "section": "Permissions & identity",
+      "flags": [
+        {
+          "flag": "CN{lb_perms_theory}",
+          "points": 150,
+          "description": "Medium theory \u2014 ./ask about chmod bits and ownership.",
+          "hints": [
+            "rwx are read write execute.",
+            "chmod 644 is rw-r--r--."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find-writable",
+      "display_name": "24 \u00b7 Find Writable",
+      "description": "Medium \u2014 find the world-writable file under cage/ and read it.",
+      "difficulty": "medium",
+      "section": "Permissions & identity",
+      "flags": [
+        {
+          "flag": "CN{lb_find_writable}",
+          "points": 150,
+          "description": "Medium \u2014 find the world-writable file under cage/ and read it.",
+          "hints": [
+            "find -perm -0002 or -writable"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "id-groups",
+      "display_name": "25 \u00b7 Id Groups",
+      "description": "Hard \u2014 read a group-readable secret using your supplementary group.",
+      "difficulty": "hard",
+      "section": "Permissions & identity",
+      "flags": [
+        {
+          "flag": "CN{lb_id_groups}",
+          "points": 200,
+          "description": "Hard \u2014 read a group-readable secret using your supplementary group."
+        }
+      ]
+    },
+    {
+      "name": "env-leak",
+      "display_name": "26 \u00b7 Env Leak",
+      "description": "Easy \u2014 an environment variable in the station wrapper holds the keyword.",
+      "difficulty": "easy",
+      "section": "Environment",
+      "flags": [
+        {
+          "flag": "CN{lb_env_leak}",
+          "points": 100,
+          "description": "Easy \u2014 an environment variable in the station wrapper holds the keyword.",
+          "hints": [
+            "Check env or printenv for LB_KEYWORD."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "path-theory",
+      "display_name": "27 \u00b7 PATH Theory",
+      "description": "Medium theory \u2014 ./ask about PATH, export, and redirection.",
+      "difficulty": "medium",
+      "section": "Environment",
+      "flags": [
+        {
+          "flag": "CN{lb_path_theory}",
+          "points": 150,
+          "description": "Medium theory \u2014 ./ask about PATH, export, and redirection."
+        }
+      ]
+    },
+    {
+      "name": "bashrc-secret",
+      "display_name": "28 \u00b7 Bashrc Secret",
+      "description": "Medium \u2014 find a keyword hidden in a local bashrc snippet.",
+      "difficulty": "medium",
+      "section": "Environment",
+      "flags": [
+        {
+          "flag": "CN{lb_bashrc_secret}",
+          "points": 150,
+          "description": "Medium \u2014 find a keyword hidden in a local bashrc snippet.",
+          "hints": [
+            "Dotfiles again.",
+            "Look for KEYWORD= in the local rc file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "man-theory",
+      "display_name": "29 \u00b7 Man Theory",
+      "description": "Hard theory \u2014 ./ask about man sections and getting help.",
+      "difficulty": "hard",
+      "section": "Environment",
+      "flags": [
+        {
+          "flag": "CN{lb_man_theory}",
+          "points": 200,
+          "description": "Hard theory \u2014 ./ask about man sections and getting help."
+        }
+      ]
+    },
+    {
+      "name": "tar-extract",
+      "display_name": "30 \u00b7 Tar Extract",
+      "description": "Easy \u2014 extract box.tar and read the keyword file inside.",
+      "difficulty": "easy",
+      "section": "Archives & encoding",
+      "flags": [
+        {
+          "flag": "CN{lb_tar_extract}",
+          "points": 100,
+          "description": "Easy \u2014 extract box.tar and read the keyword file inside."
+        }
+      ]
+    },
+    {
+      "name": "gzip-peek",
+      "display_name": "31 \u00b7 Gzip Peek",
+      "description": "Medium \u2014 read a gzip-compressed note without leaving a mess.",
+      "difficulty": "medium",
+      "section": "Archives & encoding",
+      "flags": [
+        {
+          "flag": "CN{lb_gzip_peek}",
+          "points": 150,
+          "description": "Medium \u2014 read a gzip-compressed note without leaving a mess.",
+          "hints": [
+            "zcat or gzip -dc"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nested-tar",
+      "display_name": "32 \u00b7 Nested Tar",
+      "description": "Hard \u2014 unpack nested archives until you reach the keyword.",
+      "difficulty": "hard",
+      "section": "Archives & encoding",
+      "flags": [
+        {
+          "flag": "CN{lb_nested_tar}",
+          "points": 250,
+          "description": "Hard \u2014 unpack nested archives until you reach the keyword."
+        }
+      ]
+    },
+    {
+      "name": "base64-note",
+      "display_name": "33 \u00b7 Base64 Note",
+      "description": "Easy \u2014 decode a base64 blob to get the keyword.",
+      "difficulty": "easy",
+      "section": "Archives & encoding",
+      "flags": [
+        {
+          "flag": "CN{lb_base64}",
+          "points": 100,
+          "description": "Easy \u2014 decode a base64 blob to get the keyword.",
+          "hints": [
+            "base64 -d"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "xxd-hex",
+      "display_name": "34 \u00b7 Hex Note",
+      "description": "Hard \u2014 recover an ASCII keyword from a hex dump.",
+      "difficulty": "hard",
+      "section": "Archives & encoding",
+      "flags": [
+        {
+          "flag": "CN{lb_xxd_hex}",
+          "points": 250,
+          "description": "Hard \u2014 recover an ASCII keyword from a hex dump."
+        }
+      ]
+    },
+    {
+      "name": "ps-clue",
+      "display_name": "35 \u00b7 Process Clue",
+      "description": "Medium \u2014 a background helper process command line contains the keyword.",
+      "difficulty": "medium",
+      "section": "Process & system",
+      "flags": [
+        {
+          "flag": "CN{lb_ps_clue}",
+          "points": 150,
+          "description": "Medium \u2014 a background helper process command line contains the keyword.",
+          "hints": [
+            "ps aux | grep lb-helper",
+            "Look at the full command line."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hosts-lookup",
+      "display_name": "36 \u00b7 Hosts File",
+      "description": "Easy \u2014 read the lab hosts snippet for lab-flag.local.",
+      "difficulty": "easy",
+      "section": "Process & system",
+      "flags": [
+        {
+          "flag": "CN{lb_hosts_file}",
+          "points": 75,
+          "description": "Easy \u2014 read the lab hosts snippet for lab-flag.local."
+        }
+      ]
+    },
+    {
+      "name": "du-biggest",
+      "display_name": "37 \u00b7 Biggest File",
+      "description": "Medium \u2014 find the largest file under pile/; its first line is the keyword.",
+      "difficulty": "medium",
+      "section": "Process & system",
+      "flags": [
+        {
+          "flag": "CN{lb_du_biggest}",
+          "points": 150,
+          "description": "Medium \u2014 find the largest file under pile/; its first line is the keyword."
+        }
+      ]
+    },
+    {
+      "name": "strings-bin",
+      "display_name": "38 \u00b7 Strings in Binary",
+      "description": "Hard \u2014 extract a readable keyword from a binary blob.",
+      "difficulty": "hard",
+      "section": "Process & system",
+      "flags": [
+        {
+          "flag": "CN{lb_strings_bin}",
+          "points": 300,
+          "description": "Hard \u2014 extract a readable keyword from a binary blob.",
+          "hints": [
+            "strings blob.bin | grep KEY"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cron-clue",
+      "display_name": "39 \u00b7 Cron Clue",
+      "description": "Medium \u2014 read a readable crontab snippet for the keyword.",
+      "difficulty": "medium",
+      "section": "Process & system",
+      "flags": [
+        {
+          "flag": "CN{lb_cron_clue}",
+          "points": 200,
+          "description": "Medium \u2014 read a readable crontab snippet for the keyword."
+        }
+      ]
+    },
+    {
+      "name": "multi-pipe",
+      "display_name": "40 \u00b7 Multi Pipe",
+      "description": "Hard \u2014 filter logs with a pipeline to isolate the ops TOKEN.",
+      "difficulty": "hard",
+      "section": "Capstone",
+      "flags": [
+        {
+          "flag": "CN{lb_multi_pipe}",
+          "points": 300,
+          "description": "Hard \u2014 filter logs with a pipeline to isolate the ops TOKEN.",
+          "hints": [
+            "grep ERROR, then ops, then pull TOKEN="
+          ]
+        }
+      ]
+    },
+    {
+      "name": "needle-maze",
+      "display_name": "41 \u00b7 Needle Maze",
+      "description": "Hard \u2014 find production auth_token in a messy web tree; no platform hints.",
+      "difficulty": "hard",
+      "section": "Capstone",
+      "flags": [
+        {
+          "flag": "CN{lb_needle_maze}",
+          "points": 350,
+          "description": "Hard \u2014 find production auth_token in a messy web tree; no platform hints."
+        }
+      ]
+    },
+    {
+      "name": "finals-theory",
+      "display_name": "42 \u00b7 Finals Theory",
+      "description": "Hard theory \u2014 mixed Linux basics via ./ask (no file hunting).",
+      "difficulty": "hard",
+      "section": "Capstone",
+      "flags": [
+        {
+          "flag": "CN{lb_finals_theory}",
+          "points": 300,
+          "description": "Hard theory \u2014 mixed Linux basics via ./ask (no file hunting).",
+          "hints": [
+            "Think about pipes, find, and permissions."
+          ]
+        }
+      ]
     }
   ]
 }

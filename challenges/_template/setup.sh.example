@@ -1,19 +1,17 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-CHALLENGE_NAME="${CHALLENGE_NAME:-}"
+# Example author setup.
+# - Never install sudoers NOPASSWD:ALL for the student
+# - Prefer compiled execute-only checker/ask (chmod 111, owner root)
+# - Re-assert those modes after any chown -R of /home/user
 
-if [[ -n "$CHALLENGE_NAME" ]]; then
-    case "$CHALLENGE_NAME" in
-        my-challenge) setup_my_challenge ;;
-        *) echo "Unknown challenge: $CHALLENGE_NAME" ;;
-    esac
-    exit 0
-fi
+USER_HOME=/home/user
+CHALL="$USER_HOME/challenges"
+mkdir -p "$CHALL/01-example"
+echo "Read the README and solve the task." >"$CHALL/01-example/README"
 
-# Default: set up all challenges
-setup_my_challenge
+chown -R user:user "$USER_HOME"
+# find "$CHALL" -type f \( -name checker -o -name ask \) -exec chown root:root {} \; -exec chmod 111 {} \;
 
-# Optional: set permissions so students can read challenge files
-chmod -R a=rX /opt/challenges
-find /opt/challenges -type d -exec chmod 755 {} \;
+echo "setup complete"

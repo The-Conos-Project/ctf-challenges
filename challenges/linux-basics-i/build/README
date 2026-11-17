@@ -1,0 +1,27 @@
+Linux Basics I
+
+Shared SSH lab with 42 stations under ~/challenges.
+
+Login: user / user  (port 22)
+
+How to play
+  cd ~/challenges
+  ls
+  cat <station>/README
+
+Practical stations
+  Find a keyword in the lab, then run:
+    ./checker '<keyword>'
+  Wrong keyword prints an error. Correct keyword prints CN{...}.
+
+Theory stations
+  Run ./ask and answer each question. On success it prints the flag.
+
+Safety (read this)
+  You do NOT have sudo ALL. Do not expect passwordless root.
+  checker and ask are execute-only binaries. You can run them; you cannot
+  read or copy their contents (cat/strings/less should fail).
+  Do not ship world-readable shell checkers that embed plaintext flags.
+  Do not grant student accounts (ALL) NOPASSWD: ALL in any lab image.
+
+Submit each CN{...} flag in the Hackploy UI for that challenge tile.

@@ -1,19 +1,44 @@
 {
-  "name": "my-challenge",
-  "display_name": "My Challenge",
-  "description": "Short description of what this challenge tests.",
+  "name": "my-lab",
+  "display_name": "My Lab",
+  "description": "Short description. Prefer mixed difficulty in multi-station sets.",
+  "version": "1.0.0",
+  "difficulty": "mixed",
+  "category": "linux",
+  "ports": { "ssh": 22 },
   "credentials": {
-    "username": "ctfuser",
-    "password": "changeme123"
+    "username": "user",
+    "password": "user"
   },
-  "flags": [
+  "challenges": [
     {
-      "flag": "CN{example_flag_here}",
-      "description": "Short description of what the student must do.",
-      "hints": [
-        "First generic hint pointing toward the right tool or concept.",
-        "Second hint with slightly more direction.",
-        "Third hint that clarifies the exact path or command."
+      "name": "station-with-hints",
+      "display_name": "01 · With Hints",
+      "description": "Easy — example with platform hints.",
+      "difficulty": "easy",
+      "section": "Examples",
+      "flags": [
+        {
+          "flag": "CN{example_with_hints}",
+          "points": 50,
+          "hints": [
+            "First gentle hint.",
+            "Slightly more direction."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "station-no-hints",
+      "display_name": "02 · No Hints",
+      "description": "Medium — example without platform hints.",
+      "difficulty": "medium",
+      "section": "Examples",
+      "flags": [
+        {
+          "flag": "CN{example_no_hints}",
+          "points": 150
+        }
       ]
     }
   ]

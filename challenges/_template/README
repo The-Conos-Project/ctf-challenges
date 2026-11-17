@@ -1,0 +1,110 @@
+Hackploy challenge package template
+
+Rules for packages under challenges/ for the Hackploy Hub / platform.
+
+Folder structure
+---------------
+Each package is one folder with a Hub archive, a Hub description file, and
+optional editable build sources:
+
+  challenges/
+    <package-name>/
+      <package-name>.tar.gz
+      <package-name>.md
+      build/                 (optional author sources)
+
+Example:
+
+  challenges/
+    linux-basics-i/
+      linux-basics-i.tar.gz
+      linux-basics-i.md
+      build/
+
+tar.gz contents
+---------------
+At the root of the archive:
+
+  Dockerfile
+  setup.sh
+  hackploy.json
+  README
+  entrypoint.sh            (optional)
+  tools/                   (optional compiler sources)
+  ...
+
+hackploy.json
+-------------
+Manifest the platform reads. Prefer a challenges array for multi-station sets.
+
+Required ideas:
+  name             lowercase hyphenated set id
+  display_name
+  description
+  credentials.username / credentials.password for SSH labs
+  challenges[] with name, display_name, description, difficulty, section,
+               flags[{ flag, points, hints? }]
+
+Flags MUST use CN{...}.
+
+Hints are optional per flag. Use a mix in large sets: some with hints, some
+without, varied points and easy/medium/hard.
+
+Two ways to earn a flag
+-----------------------
+1) Checker (practical)
+   Hide a keyword. Student runs: ./checker '<keyword>'
+   Wrong keyword -> error. Right keyword -> prints CN{...}.
+
+2) Ask (theory)
+   Student runs: ./ask
+   Interactive questions; on success prints the flag.
+
+Security rules (mandatory)
+--------------------------
+1) NEVER grant the student account unrestricted sudo.
+   Forbidden example:
+     user ALL=(ALL) NOPASSWD: ALL
+   Do not install a sudoers.d drop-in that allows ALL.
+   If a station needs a privileged file, create it as root with careful
+   ownership/mode during image build. Students solve with user perms.
+
+2) NEVER leave checker or ask as world-readable shell scripts that embed
+   plaintext flags or obvious ciphertext next to the answer.
+   Preferred pattern:
+     - compile small ELF binaries at image build time
+     - install them mode 111 (execute-only), owner root
+     - students can execute but cannot cat/cp/strings the binary
+     - after apt build, purge gcc/headers from the final image
+
+3) Do not install debugging aids students can use to dump binaries
+   (gdb, strace) unless the challenge intentionally teaches them.
+
+4) No real secrets, API keys, or private keys in the image.
+
+5) Test: docker build, run container, solve every station, confirm
+   sudo -l does not show NOPASSWD ALL, and cat ./checker fails.
+
+Difficulty and coverage
+-----------------------
+For a full curriculum set, cover many cases in one image:
+  - easy / medium / hard
+  - low and high points
+  - with platform hints and without
+  - checker stations and ask stations
+  - some on-disk HINT files, some only README
+
+Dockerfile / SSH
+----------------
+Ubuntu/Debian base, openssh-server, non-root user, expose 22.
+Bake lab content at image build (RUN setup.sh) so start is reliable.
+Prefer an entrypoint that starts sshd (and any required lab helpers).
+
+Submitting
+----------
+1. Build and pack under challenges/<name>/
+2. Commit and push the Hub repo
+3. Platform / Hub sync picks up the package
+
+See also: inside-tar/ for a minimal skeleton, and linux-basics-i/build for a
+full multi-station example with compiled checkers.

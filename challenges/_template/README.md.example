@@ -1,17 +1,9 @@
-# My Challenge
+Student-facing package notes (plain text is preferred for in-lab README).
 
-Short description of the challenge. Explain what the student will learn or practice.
+Describe what the student should do after SSH.
 
-## Setup
-
-1. Start the container from Hackploy.
-2. Connect via SSH using the credentials shown in the platform.
-3. Explore the environment to find the flags.
-
-## Flags
-
-### Flag 1: Short task description
-**Hints:**
-- First generic hint.
-- Second more specific hint.
-- Third hint that nearly gives it away.
+Reminders for authors (do not skip)
+- No (ALL) NOPASSWD: ALL for the student user
+- checker/ask: compile to ELF, chmod 111, owner root
+- Flags: CN{...} only
+- Mix hints / no hints / difficulties / points when building large sets

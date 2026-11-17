@@ -1,19 +1,17 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-CHALLENGE_NAME="${CHALLENGE_NAME:-}"
+# Example setup. Adapt for your stations.
+# Rules:
+# - Do not grant sudo ALL to the student user
+# - Install checker/ask as root-owned mode 111 ELF binaries when possible
+# - chmod/chown challenge files deliberately
 
-if [[ -n "$CHALLENGE_NAME" ]]; then
-    case "$CHALLENGE_NAME" in
-        my-challenge) setup_my_challenge ;;
-        *) echo "Unknown challenge: $CHALLENGE_NAME" ;;
-    esac
-    exit 0
-fi
+USER_HOME=/home/user
+mkdir -p "$USER_HOME/challenges/01-example"
+cat >"$USER_HOME/challenges/01-example/README" <<'EOF'
+Example station. Replace with a real task.
+EOF
 
-# Default: set up all challenges
-setup_my_challenge
-
-# Optional: set permissions so students can read challenge files
-chmod -R a=rX /opt/challenges
-find /opt/challenges -type d -exec chmod 755 {} \;
+chown -R user:user "$USER_HOME"
+echo "setup complete"

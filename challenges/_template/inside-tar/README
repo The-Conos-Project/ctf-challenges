@@ -1,0 +1,10 @@
+Challenge lab skeleton
+
+Replace this text with student-facing instructions (plain text is fine).
+
+Security checklist for authors
+- Student user must NOT have (ALL) NOPASSWD: ALL
+- checker/ask should be execute-only compiled binaries (mode 111), not
+  readable shell scripts with embedded flags
+- Flags are CN{...} only
+- Test sudo -l and cat ./checker before publishing

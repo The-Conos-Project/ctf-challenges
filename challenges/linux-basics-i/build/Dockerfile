@@ -3,25 +3,36 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        openssh-server sudo ca-certificates openssl \
+        openssh-server ca-certificates openssl \
         coreutils findutils grep gawk sed \
+        tar gzip bzip2 xz-utils \
         less man-db nano vim-tiny \
+        python3 xxd binutils \
+        gcc libc6-dev libssl-dev \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /var/run/sshd \
     && echo 'PermitRootLogin no' >> /etc/ssh/sshd_config \
     && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
     && ssh-keygen -A
 
+# Lab user: NO sudo. Unrestricted sudo is forbidden for student labs.
 RUN useradd -m -s /bin/bash user \
-    && echo 'user:user' | chpasswd \
-    && echo 'user ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/user
+    && echo 'user:user' | chpasswd
 
 COPY setup.sh /tmp/setup.sh
-COPY lib /tmp/lib
+COPY tools /tmp/tools
 COPY stations /tmp/stations
-RUN chmod +x /tmp/setup.sh /tmp/lib/ask.sh \
+COPY hackploy.json /tmp/hackploy.json
+COPY README /home/user/LAB_README
+
+RUN chmod +x /tmp/setup.sh \
     && /tmp/setup.sh \
-    && rm -rf /tmp/setup.sh /tmp/lib /tmp/stations
+    && apt-get purge -y gcc libc6-dev libssl-dev \
+    && apt-get autoremove -y \
+    && rm -rf /tmp/setup.sh /tmp/tools /tmp/stations /tmp/hackploy.json /var/lib/apt/lists/*
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["/entrypoint.sh"]

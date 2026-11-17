@@ -1,0 +1,1 @@
+Search conf/ for auth_token in a production-related file. Ignore *.bak.

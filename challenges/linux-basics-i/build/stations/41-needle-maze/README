@@ -1,0 +1,1 @@
+Search /opt/lb/web. Prefer prod *.cfg; ignore .git and backup/.
